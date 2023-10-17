@@ -1,5 +1,7 @@
+import random
 from django.shortcuts import render
 from django.http import HttpResponse, Http404, JsonResponse
+
 from .models import Tweet
 from .serializers import TweetSerializer
 
@@ -11,9 +13,14 @@ def home_page(request):
 
 
 def tweet_list_view(request,*args,**kwargs):
+    """
+    REST API VIEW
+    Consume by JavaScript or Swift/Java/iOS/Android
+    return json data
+    """
 
     query_set=Tweet.objects.all()
-    tweets_list=[{"id":x.id,"content":x.content} for x in query_set]
+    tweets_list=[{"id":x.id,"content":x.content, "likes":random.randint(0,12345)} for x in query_set]
     data={
         "isUser":False,
         "response":tweets_list
@@ -22,6 +29,11 @@ def tweet_list_view(request,*args,**kwargs):
     return JsonResponse(data)
 
 def tweet_detail_view(request,tweet_id,*args,**kwargs):
+    """
+    REST API VIEW
+    Consume by JavaScript or Swift/Java/iOS/Android
+    return json data
+    """
 
     data = {
         "id":tweet_id,
@@ -37,5 +49,5 @@ def tweet_detail_view(request,tweet_id,*args,**kwargs):
     except:
         data['message']='Not found'
         status=404
-        
+
     return JsonResponse(data,status=status)

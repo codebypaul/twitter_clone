@@ -1,9 +1,17 @@
-{% extends 'pages/base.html'%}
+{% extends 'base.html'%}
+
+{% block head_title %}
+
+{% endblock head_title %}
+
+
 {% block content %}
-<h1>Hello World Again</h1>
+<!-- <h1>Hello World Again</h1> -->
 <div id="tweets">
     Loading...
 </div>
+
+
 <script>
     const tweetsElement=document.querySelector('#tweets')
     const xhr=new XMLHttpRequest()
@@ -11,6 +19,19 @@
     const url="/tweets"
     const responseType="json"
     
+    function handleDidLike(tweet_id, currentCount){
+        console.log(tweet_id,currentCount)
+    }
+
+    function LikeBtn(tweet){
+        return "<button class='btn btn-primary btn-sm' onclick=handleDidLike(" + tweet.id + "," + tweet.likes + ")>" + tweet.likes + " Likes</button>"
+    }
+
+    function formatTweetElement(tweet) {
+        let formattedTweet = "<div class='mb-4' id='tweet-" + tweet.id + "'><p>" + tweet.content + "</p><div class'btn-group'>" + LikeBtn(tweet) + "</div></div>"
+        return formattedTweet
+    }
+
     xhr.responseType=responseType
     xhr.open(method,url)
     xhr.onload=function(){
@@ -19,8 +40,9 @@
         let finalTweetStr=""
         let i
         for (i=0;i<listedItems.length;i++){
-            let currentItem='<h1>'+listedItems[i].id+'</h1>'+'<p>'+listedItems[i].content+'</p>'
-            finalTweetStr +=currentItem
+            let tweetObj = listedItems[i]
+            let currentItem = formatTweetElement(tweetObj)
+                finalTweetStr += currentItem
         }
         tweetsElement.innerHTML=finalTweetStr
     }
