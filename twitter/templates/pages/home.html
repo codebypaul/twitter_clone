@@ -1,0 +1,29 @@
+{% extends 'pages/base.html'%}
+{% block content %}
+<h1>Hello World Again</h1>
+<div id="tweets">
+    Loading...
+</div>
+<script>
+    const tweetsElement=document.querySelector('#tweets')
+    const xhr=new XMLHttpRequest()
+    const method ="GET"
+    const url="/tweets"
+    const responseType="json"
+    
+    xhr.responseType=responseType
+    xhr.open(method,url)
+    xhr.onload=function(){
+        const serverResponse=xhr.response
+        const listedItems=xhr.response.response
+        let finalTweetStr=""
+        let i
+        for (i=0;i<listedItems.length;i++){
+            let currentItem='<h1>'+listedItems[i].id+'</h1>'+'<p>'+listedItems[i].content+'</p>'
+            finalTweetStr +=currentItem
+        }
+        tweetsElement.innerHTML=finalTweetStr
+    }
+    xhr.send()
+</script>
+{% endblock content %}
