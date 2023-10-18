@@ -6,8 +6,14 @@
 
 
 {% block content %}
-<!-- <h1>Hello World Again</h1> -->
-<div id="tweets">
+<div class="row">
+    <div class="column">
+        <h1>
+            Welcome to Twitter
+        </h1>
+    </div>
+</div>
+<div class ='row' id="tweets">
     Loading...
 </div>
 
@@ -21,6 +27,7 @@
     
     function handleDidLike(tweet_id, currentCount){
         console.log(tweet_id,currentCount)
+        return 
     }
 
     function LikeBtn(tweet){
@@ -28,7 +35,7 @@
     }
 
     function formatTweetElement(tweet) {
-        let formattedTweet = "<div class='mb-4' id='tweet-" + tweet.id + "'><p>" + tweet.content + "</p><div class'btn-group'>" + LikeBtn(tweet) + "</div></div>"
+        let formattedTweet = "<div class='col-12 border-top border-bottom py-3 mb-4 tweet' id='tweet-" + tweet.id + "'><p>" + tweet.content + "</p><div class'btn-group'>" + LikeBtn(tweet) + "</div></div>"
         return formattedTweet
     }
 
