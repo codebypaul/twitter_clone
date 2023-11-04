@@ -34,7 +34,20 @@
 <script>
     function handleTweetCreateFormDidSubmit(event){
         event.preventDefault()
-        console.log(event)
+        const myForm = event.target
+        const myFormData = new FormData(myForm)
+        const url = myForm.getAttribute('action')
+        const method = myForm.getAttribute('method')
+        const xhr = new XMLHttpRequest()
+        xhr.open(method,url)
+        xhr.onload = function() {
+            const serverResponse = xhr.response
+            console.log(serverResponse)
+        }
+        xhr.send(myFormData)
+        // for (var myItem of myFormData.entries()) {
+        //     console.log(myItem)
+        // }
     }
 
     const tweetCreateFormEl = document.querySelector('#tweet-create-form')
@@ -43,7 +56,7 @@
 
     const tweetsEl=document.querySelector('#tweets')
 
-    function loadTweets(tweetsElement) {
+    function loadTweets(tweetsElement) { // 'tweetsElement' is now the arguement
         const xhr=new XMLHttpRequest()
         const method ="GET"
         const url="/tweets"
@@ -81,7 +94,5 @@
         return formattedTweet
     }
 
-    
-    
 </script>
 {% endblock content %}
