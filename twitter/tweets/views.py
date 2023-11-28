@@ -26,7 +26,7 @@ def tweet_create_view(request,*args,**kwargs):
         obj = form.save(commit=False)
         obj.save()
         if is_ajax:
-            return JsonResponse({},status=201) #201 is for created items
+            return JsonResponse(obj.serialize(),status=201) #201 is for created items
         if next_url != None and url_has_allowed_host_and_scheme(next_url, ALLOWED_HOSTS):
             return redirect(next_url)
         form = TweetForm()
