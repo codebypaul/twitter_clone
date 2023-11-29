@@ -18,7 +18,7 @@ def home_page(request):
 
 def tweet_create_view(request,*args,**kwargs):
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
-    print('ajax', is_ajax)
+    # print('ajax', is_ajax)
     form = TweetForm(request.POST or None)
     # print('post data is', request.POST)
     next_url = request.POST.get("next") or None
@@ -41,7 +41,7 @@ def tweet_list_view(request,*args,**kwargs):
     """
 
     query_set=Tweet.objects.all()
-    tweets_list=[{"id":x.id,"content":x.content, "likes":random.randint(0,12345)} for x in query_set]
+    tweets_list=[x.serialize() for x in query_set]
     data={
         "isUser":False,
         "response":tweets_list
@@ -65,8 +65,6 @@ def tweet_detail_view(request,tweet_id,*args,**kwargs):
     try:
         obj=Tweet.objects.get(id=tweet_id)
         data['content']=obj.content
-        # serializer=TweetSerializers(obj,many=False)
-        # return
     except:
         data['message']='Not found'
         status=404
