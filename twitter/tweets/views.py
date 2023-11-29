@@ -30,6 +30,9 @@ def tweet_create_view(request,*args,**kwargs):
         if next_url != None and url_has_allowed_host_and_scheme(next_url, ALLOWED_HOSTS):
             return redirect(next_url)
         form = TweetForm()
+    if form.errors:
+        if is_ajax:
+            return JsonResponse(form.errors, status=400)
     return render(request, 'components/tweet_form.html', context={'form':form})
 
 
