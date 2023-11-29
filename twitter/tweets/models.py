@@ -7,6 +7,9 @@ class Tweet(models.Model):
     image=models.FileField(upload_to='images/',blank=True,null=True)
     # likes=models.IntegerField()
 
+    class Meta:
+        ordering = ['-id']
+        
     def serialize(self):
         return {
             "id":self.id,
